@@ -13,7 +13,7 @@ Ce dépôt respecte la méthodologie standard **Gitflow** pour assurer un cycle 
   release ───┼──────────●─────────────┘
              │          ▲
              │          │ Cut release
-  develop ───●──●───────●──●──────────► (Intégration continue / Staging)
+  develop ───●──●───────●──●──────────► (CI ; publication dev-latest, sans déploiement)
                 ▲       ▲  ▲
      feature ───┘       │  │
                         └──┘
@@ -21,10 +21,10 @@ Ce dépôt respecte la méthodologie standard **Gitflow** pour assurer un cycle 
 
 ### 1. Branches Principales (Long-lived)
 
-| Branche       | Rôle                      | Environnement de déploiement                              | Protection                               |
-| ------------- | ------------------------- | --------------------------------------------------------- | ---------------------------------------- |
-| **`main`**    | Code stable de production | Coolify Production (`https://tpfinal.tp-devops-6.online`) | Protégée (PR requise, checks CI validés) |
-| **`develop`** | Intégration continue      | Coolify Staging / Preview                                 | Protégée (Merge via PR uniquement)       |
+| Branche       | Rôle                      | Environnement de déploiement                                   | Protection                                    |
+| ------------- | ------------------------- | -------------------------------------------------------------- | --------------------------------------------- |
+| **`main`**    | Code stable de production | Coolify Production (`https://tpfinal.tp-devops-6.online`)      | Protection à configurer par un administrateur |
+| **`develop`** | Intégration continue      | CI et publication `dev-latest` ; aucun déploiement automatique | Protection à configurer par un administrateur |
 
 ### 2. Branches Temporaires (Short-lived)
 
@@ -65,3 +65,5 @@ Avant tout merge sur `develop` ou `main`, le pipeline GitHub Actions valide obli
 2. ✅ Compilation sans warning ni erreur.
 3. ✅ Hadolint sur les Dockerfiles.
 4. ✅ Scan de vulnérabilités Trivy.
+
+Le workflow déclenche Coolify uniquement après un push sur `main`. Les protections GitHub des branches n’étaient pas configurées/vérifiables lors de cet audit ; leur activation nécessite un compte administrateur.
