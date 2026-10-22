@@ -6,9 +6,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-tamagochi}
       POSTGRES_USER: ${POSTGRES_USER:-tamagochi}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tamagochi_secret}
-    ports:
-      - '5432:5432'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     volumes:
       - pgdata_frontdev:/var/lib/postgresql/data
     healthcheck:
@@ -31,11 +29,9 @@ services:
       DB_PORT: 5432
       DB_NAME: ${POSTGRES_DB:-tamagochi}
       DB_USER: ${POSTGRES_USER:-tamagochi}
-      DB_PASSWORD: ${POSTGRES_PASSWORD:-tamagochi_secret}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
       SERVER_PORT: 8080
       PET_DECAY_INTERVAL: 10000
-    ports:
-      - '8080:8080'
     healthcheck:
       test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:8080/actuator/health']
       interval: 10s
@@ -56,10 +52,10 @@ services:
       back:
         condition: service_healthy
     environment:
-      PORT: 80
+      PORT: 8080
       BACKEND_URL: http://back:8080
     ports:
-      - '4200:80'
+      - '127.0.0.1:4200:8080'
     networks:
       - tamagotchi_net
 

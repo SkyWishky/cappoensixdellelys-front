@@ -15,45 +15,44 @@ URL en production : https://tpfinal.tp-devops-6.online
 
 ## Lancer en local avec Docker Compose
 
-Pour lancer l'application en local (build le frontend et telecharge les images du backend et de la base de donnees depuis le registre) :
+Copiez `.env.example` vers `.env`, remplacez `POSTGRES_PASSWORD` par un secret local, puis lancez toute la stack :
 
 ```bash
+cp .env.example .env
 docker compose up -d
 ```
 
-L'application sera accessible sur http://localhost:4200.
-
-Pour arreter les conteneurs :
+L'application est disponible sur [http://localhost:4200](http://localhost:4200). Pour arrêter les conteneurs sans supprimer les données :
 
 ```bash
 docker compose down
 ```
 
-## Lancer le conteneur seul
+## Pipeline CI/CD
+
+Le workflow `.github/workflows/ci-cd.yml` vérifie le formatage, compile Angular, audite le Dockerfile avec Hadolint, analyse les vulnérabilités avec Trivy et publie l'image sur GHCR. `main` publie `latest` et déclenche le webhook Coolify; `develop` publie `dev-latest` sans déployer la production.
+
+## Gitflow
+
+Consultez [GITFLOW.md](GITFLOW.md). La protection des branches GitHub doit être configurée par un administrateur.
+
+## Exécution manuelle du conteneur
+
+Pour joindre un backend disponible sur l'hôte au port 8080 :
 
 ```bash
-docker build -t frontend-tamagotchi .
-docker run -d -p 4200:80 -e BACKEND_URL=http://localhost:8080 frontend-tamagotchi
+docker build -t cappoensixdellelys-front .
+docker run -d --name tamagotchi-front \
+  -p 127.0.0.1:4200:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -e BACKEND_URL=http://host.docker.internal:8080 \
+  cappoensixdellelys-front
 ```
 
-## Variables d'environnement
+Le conteneur écoute sur `PORT=8080`. Dans la stack Compose, `BACKEND_URL` pointe vers `http://back:8080`.
 
-- `PORT` : Port d'ecoute Nginx (par defaut : 80).
-- `BACKEND_URL` : URL du backend (par defaut : http://backend:8080).
-
-## Pipeline CI/CD (GitHub Actions)
-
-A chaque push sur `main` et `develop`, le pipeline execute :
-
-1. Verification du format du code avec Prettier.
-2. Build du projet Angular.
-3. Verification du Dockerfile avec Hadolint.
-4. Scan de securite des dependances avec Trivy.
-5. Construction et publication de l'image Docker sur GitHub Container Registry (ghcr.io).
-6. Declenchement du webhook de deploiement automatique sur Coolify.
-
-## Liens des depots du projet
+## Dépôts du projet
 
 - Frontend : https://github.com/SkyWishky/cappoensixdellelys-front
 - Backend : https://github.com/SkyWishky/cappoensixdellelys-back
-- Database et Infra : https://github.com/SkyWishky/cappoensixdellelys-database
+- Base de données et infrastructure : https://github.com/SkyWishky/cappoensixdellelys-database
