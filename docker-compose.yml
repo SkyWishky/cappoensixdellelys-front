@@ -8,11 +8,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-tamagochi}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tamagochi_secret}
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - pgdata_frontdev:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tamagochi} -d ${POSTGRES_DB:-tamagochi}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-tamagochi} -d ${POSTGRES_DB:-tamagochi}']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -35,9 +35,9 @@ services:
       SERVER_PORT: 8080
       PET_DECAY_INTERVAL: 10000
     ports:
-      - "8080:8080"
+      - '8080:8080'
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/actuator/health"]
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:8080/actuator/health']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -59,7 +59,7 @@ services:
       PORT: 80
       BACKEND_URL: http://back:8080
     ports:
-      - "4200:80"
+      - '4200:80'
     networks:
       - tamagotchi_net
 

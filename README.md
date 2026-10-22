@@ -56,9 +56,9 @@ Consultez le document dédié : **[GITFLOW.md](GITFLOW.md)**.
 
 ### Variables d'environnement requises
 
-| Variable | Description | Valeur par défaut |
-|---|---|---|
-| `PORT` | Port d'écoute du serveur Nginx | `80` |
+| Variable      | Description                        | Valeur par défaut  |
+| ------------- | ---------------------------------- | ------------------ |
+| `PORT`        | Port d'écoute du serveur Nginx     | `80`               |
 | `BACKEND_URL` | URL du service backend Spring Boot | `http://back:8080` |
 
 ### Build et exécution manuelle

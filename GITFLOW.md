@@ -21,10 +21,10 @@ Ce dépôt respecte la méthodologie standard **Gitflow** pour assurer un cycle 
 
 ### 1. Branches Principales (Long-lived)
 
-| Branche | Rôle | Environnement de déploiement | Protection |
-|---|---|---|---|
-| **`main`** | Code stable de production | Coolify Production (`https://tpfinal.tp-devops-6.online`) | Protégée (PR requise, checks CI validés) |
-| **`develop`** | Intégration continue | Coolify Staging / Preview | Protégée (Merge via PR uniquement) |
+| Branche       | Rôle                      | Environnement de déploiement                              | Protection                               |
+| ------------- | ------------------------- | --------------------------------------------------------- | ---------------------------------------- |
+| **`main`**    | Code stable de production | Coolify Production (`https://tpfinal.tp-devops-6.online`) | Protégée (PR requise, checks CI validés) |
+| **`develop`** | Intégration continue      | Coolify Staging / Preview                                 | Protégée (Merge via PR uniquement)       |
 
 ### 2. Branches Temporaires (Short-lived)
 
@@ -60,6 +60,7 @@ Les commits suivent le standard international :
 ## 🛡️ Règles de Validation CI/CD
 
 Avant tout merge sur `develop` ou `main`, le pipeline GitHub Actions valide obligatoirement :
+
 1. ✅ Vérification de formatage et linting.
 2. ✅ Compilation sans warning ni erreur.
 3. ✅ Hadolint sur les Dockerfiles.
