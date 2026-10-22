@@ -37,7 +37,7 @@ Workflow automatisé défini dans `.github/workflows/ci-cd.yml` :
    - `ghcr.io/skywishky/cappoensixdellelys-front:latest` (branche `main`)
    - `ghcr.io/skywishky/cappoensixdellelys-front:dev-latest` (branche `develop`)
    - `ghcr.io/skywishky/cappoensixdellelys-front:vX.Y.Z` (tags de version)
-6. **Continuous Deployment** : Déclenchement automatique par webhook Coolify pour rafraîchissement sans coupure.
+6. **Continuous Deployment** : Déclenchement du webhook Coolify uniquement après un push sur `main`.
 
 ---
 
@@ -45,7 +45,7 @@ Workflow automatisé défini dans `.github/workflows/ci-cd.yml` :
 
 Consultez le document dédié : **[GITFLOW.md](GITFLOW.md)**.
 
-- **`main`** : Branche de production, protégée, reflète l'état déployé en production.
+- **`main`** : Branche de production, reflète l'état déployé en production ; sa protection reste à configurer par un administrateur GitHub.
 - **`develop`** : Branche d'intégration continue, reçoit les pull requests des branches fonctionnelles.
 - **`feature/*`** : Branches de travail pour les nouvelles fonctionnalités.
 - **`hotfix/*`** : Branches de correctifs urgents directement issues de `main`.
@@ -56,10 +56,10 @@ Consultez le document dédié : **[GITFLOW.md](GITFLOW.md)**.
 
 ### Variables d'environnement requises
 
-| Variable      | Description                        | Valeur par défaut  |
-| ------------- | ---------------------------------- | ------------------ |
-| `PORT`        | Port d'écoute du serveur Nginx     | `80`               |
-| `BACKEND_URL` | URL du service backend Spring Boot | `http://back:8080` |
+| Variable      | Description                             | Valeur par défaut  |
+| ------------- | --------------------------------------- | ------------------ |
+| `PORT`        | Port d'écoute du serveur Nginx non-root | `8080`             |
+| `BACKEND_URL` | URL du service backend Spring Boot      | `http://back:8080` |
 
 ### Build et exécution manuelle
 
@@ -68,10 +68,12 @@ Consultez le document dédié : **[GITFLOW.md](GITFLOW.md)**.
 docker build -t cappoensixdellelys-front .
 
 # Lancement du conteneur
+# Le backend doit être accessible depuis l’hôte sur le port 8080.
 docker run -d \
   --name tamagotchi-front \
-  -p 4200:80 \
-  -e BACKEND_URL=http://localhost:8080 \
+  -p 127.0.0.1:4200:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -e BACKEND_URL=http://host.docker.internal:8080 \
   cappoensixdellelys-front
 ```
 
