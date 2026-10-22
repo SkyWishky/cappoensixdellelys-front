@@ -1,0 +1,40 @@
+.avatar {
+  font-size: 4rem;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+}
+
+.stats dd {
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.actions button {
+  text-transform: capitalize;
+}
+
+.release {
+  display: block;
+  margin: 1rem auto 0;
+  background: transparent;
+  color: #c0392b;
+}
+
+.dead {
+  filter: grayscale(1);
+}

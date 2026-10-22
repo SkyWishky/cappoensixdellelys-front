@@ -1,0 +1,42 @@
+.adopt {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.adopt input {
+  flex: 1;
+}
+
+.pets {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pets a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.emoji {
+  font-size: 2rem;
+}
+
+.name {
+  flex: 1;
+  font-weight: bold;
+}
+
+.stats {
+  font-size: 0.85rem;
+  color: #666;
+  font-variant-numeric: tabular-nums;
+}
+
+.dead {
+  opacity: 0.5;
+}

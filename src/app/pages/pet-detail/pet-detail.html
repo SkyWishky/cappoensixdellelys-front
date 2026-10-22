@@ -1,0 +1,33 @@
+<a routerLink="/">← All pets</a>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (pet(); as pet) {
+  <section class="card" [class.dead]="!pet.alive">
+    <div class="avatar">{{ emoji[pet.species] }}{{ mood(pet) }}</div>
+    <h2>{{ pet.name }}</h2>
+
+    <dl class="stats">
+      <dt>🍔 Fullness</dt>
+      <dd><progress max="100" [value]="pet.fullness"></progress> {{ pet.fullness }}</dd>
+      <dt>🎉 Happiness</dt>
+      <dd><progress max="100" [value]="pet.happiness"></progress> {{ pet.happiness }}</dd>
+      <dt>⚡ Energy</dt>
+      <dd><progress max="100" [value]="pet.energy"></progress> {{ pet.energy }}</dd>
+    </dl>
+
+    @if (pet.alive) {
+      <div class="actions">
+        @for (action of actions; track action) {
+          <button (click)="act(action)">{{ action }}</button>
+        }
+      </div>
+    } @else {
+      <p>Rest in peace, {{ pet.name }}. Died on {{ pet.diedAt }}.</p>
+    }
+
+    <button class="release" (click)="release()">Release</button>
+  </section>
+}

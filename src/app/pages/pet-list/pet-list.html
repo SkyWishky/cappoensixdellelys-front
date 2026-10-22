@@ -1,0 +1,28 @@
+<form class="card adopt" (ngSubmit)="adopt()">
+  <input name="name" placeholder="Name your pet" maxlength="30" required [(ngModel)]="name" />
+  <select name="species" [(ngModel)]="species">
+    @for (s of speciesList; track s) {
+      <option [value]="s">{{ emoji[s] }} {{ s }}</option>
+    }
+  </select>
+  <button type="submit" [disabled]="!name().trim()">Adopt</button>
+</form>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+<ul class="pets">
+  @for (pet of pets(); track pet.id) {
+    <li>
+      <a class="card" [class.dead]="!pet.alive" [routerLink]="['/pets', pet.id]">
+        <span class="emoji">{{ emoji[pet.species] }}</span>
+        <span class="name">{{ pet.name }}</span>
+        <span class="stats">🍔 {{ pet.fullness }} 🎉 {{ pet.happiness }} ⚡ {{ pet.energy }}</span>
+        <span>{{ mood(pet) }}</span>
+      </a>
+    </li>
+  } @empty {
+    <li>No pets yet. Adopt one!</li>
+  }
+</ul>
